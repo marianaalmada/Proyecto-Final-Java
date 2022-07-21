@@ -1,17 +1,9 @@
-package com.informatorio.infonews.domain;
+package com.informatorio.infonews.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
-public class Article {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ArticleDTO {
+    
     private Long id;
     private String title;
     private String description;
@@ -20,12 +12,8 @@ public class Article {
     private LocalDate publishedAt;
     private String content;
     
-    public Article() {
-    }
-
-    /*Borrar id del constructor */
-    public Article(Long id, String title, String description, String url, String urlToImage, LocalDate publishedAt,
-            String content) {
+    public ArticleDTO(Long id, String title, String description, String url, String urlToImage, 
+            LocalDate publishedAt, String content) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -35,13 +23,16 @@ public class Article {
         this.content = content;
     }
 
+    public ArticleDTO() {
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    } 
+    }
 
     public String getTitle() {
         return title;
@@ -113,7 +104,7 @@ public class Article {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Article other = (Article) obj;
+        ArticleDTO other = (ArticleDTO) obj;
         if (content == null) {
             if (other.content != null)
                 return false;
@@ -154,7 +145,7 @@ public class Article {
 
     @Override
     public String toString() {
-        return "Article [content=" + content + 
+        return "ArticleDTO [content=" + content + 
             ", description=" + description + 
             ", id=" + id + 
             ", publishedAt=" + publishedAt + 
@@ -162,16 +153,5 @@ public class Article {
             ", url=" + url + 
             ", urlToImage=" + urlToImage + 
             "]";
-    }  
+    }
 }
-/*
-id (autogenerado) -
-title: Representa el titulo -
-description: Breve descripcion de la noticia- 
-url: Link hacia la pagina de la noticia (ej: https://www.infobae.com/america/ciencia-america/2022/07/12/en-vivo-la-nasa)
-urlToImage: Link de la imagen de portada (ej: https://www.infobae.com/new-resizer/4q_cPUh59XY.jpg)
-publishedAt: Fecha de publicacion -
-content: Texto completo del contenido de la noticia -
-Author: Relacion con Author
-Source: Relacion con Fuente de la noticia
- */

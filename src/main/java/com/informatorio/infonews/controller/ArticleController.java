@@ -1,10 +1,13 @@
 package com.informatorio.infonews.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.informatorio.infonews.converter.ArticleConverter;
 import com.informatorio.infonews.domain.Article;
 import com.informatorio.infonews.repository.ArticleRepository;
 
@@ -12,14 +15,17 @@ import com.informatorio.infonews.repository.ArticleRepository;
 public class ArticleController {
 
     private final ArticleRepository articleRepository;
+    private final ArticleConverter articleConverter;
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository) {
+    public ArticleController(ArticleRepository articleRepository, ArticleConverter articleConverter) {
         this.articleRepository = articleRepository;
+        this.articleConverter = articleConverter;
     }
 
     @PostMapping("/article")
-    public Article createArticle(@RequestBody Article article) {
-        return articleRepository.save(article);
+    public ResponseEntity<?> createArticle(@RequestBody Article article) {
+        articleRepository.save(article);
+        return new ResponseEntity<>(articleConverter.toDTO(article), HttpStatus.CREATED);
     }
 }
