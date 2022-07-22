@@ -19,4 +19,16 @@ public class ArticleConverter {
             article.getContent()
         );
     }
+
+    public Article toEntity(ArticleDTO articleDTO) {
+        return new Article(
+            articleDTO.getId(),
+            articleDTO.getTitle(),
+            articleDTO.getDescription(),
+            articleDTO.getUrl(),
+            articleDTO.getUrlToImage(),
+            articleDTO.getPublishedAt(),
+            articleDTO.getContent()
+        );
+    }
 }

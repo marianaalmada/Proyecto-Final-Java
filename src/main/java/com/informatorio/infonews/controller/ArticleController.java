@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.informatorio.infonews.converter.ArticleConverter;
 import com.informatorio.infonews.domain.Article;
+import com.informatorio.infonews.dto.ArticleDTO;
 import com.informatorio.infonews.repository.ArticleRepository;
 
 @RestController
@@ -24,7 +25,8 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-    public ResponseEntity<?> createArticle(@RequestBody Article article) {
+    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO) {
+        Article article = articleConverter.toEntity(articleDTO);
         articleRepository.save(article);
         return new ResponseEntity<>(articleConverter.toDTO(article), HttpStatus.CREATED);
     }
