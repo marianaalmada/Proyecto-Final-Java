@@ -1,11 +1,15 @@
 package com.informatorio.infonews.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -21,12 +25,17 @@ public class Author {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public Author(Long id, String firstName, String lastName, String fullName, LocalDateTime createdAt) {
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    List<Article> articles = new ArrayList<>();
+
+    public Author(Long id, String firstName, String lastName, String fullName, LocalDateTime createdAt, 
+            List<Article> articles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
         this.createdAt = createdAt;
+        this.articles = articles;
     }
 
     public Long getId() {
@@ -67,6 +76,14 @@ public class Author {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     @Override

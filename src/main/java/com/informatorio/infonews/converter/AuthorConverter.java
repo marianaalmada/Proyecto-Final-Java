@@ -18,7 +18,7 @@ public class AuthorConverter {
         );
     }
 
-    public Author toEntity(AuthorDTO authorDTO) {
+    /*public Author toEntity(AuthorDTO authorDTO) {
         return new Author(
             authorDTO.getId(),
             authorDTO.getFirstName(),
@@ -26,5 +26,5 @@ public class AuthorConverter {
             authorDTO.getFullName(),
             authorDTO.getCreatedAt()
         );
-    }
+    }*/
 }

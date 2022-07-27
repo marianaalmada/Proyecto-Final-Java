@@ -3,9 +3,11 @@ package com.informatorio.infonews.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Article {
@@ -20,12 +22,15 @@ public class Article {
     private LocalDate publishedAt;
     private String content;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Author author;
+
     public Article() {
     }
 
     /*Borrar id del constructor */
-    public Article(Long id, String title, String description, String url, String urlToImage, LocalDate publishedAt,
-            String content) {
+    public Article(Long id, String title, String description, String url, String urlToImage, 
+            LocalDate publishedAt, String content, Author author) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -33,6 +38,7 @@ public class Article {
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
         this.content = content;
+        this.author = author;
     }
 
     public Long getId() {
@@ -90,6 +96,14 @@ public class Article {
     public void setContent(String content) {
         this.content = content;
     }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    } 
 
     @Override
     public int hashCode() {
@@ -162,16 +176,5 @@ public class Article {
             ", url=" + url + 
             ", urlToImage=" + urlToImage + 
             "]";
-    }  
+    }
 }
-/*
-id (autogenerado) -
-title: Representa el titulo -
-description: Breve descripcion de la noticia- 
-url: Link hacia la pagina de la noticia (ej: https://www.infobae.com/america/ciencia-america/2022/07/12/en-vivo-la-nasa)
-urlToImage: Link de la imagen de portada (ej: https://www.infobae.com/new-resizer/4q_cPUh59XY.jpg)
-publishedAt: Fecha de publicacion -
-content: Texto completo del contenido de la noticia -
-Author: Relacion con Author
-Source: Relacion con Fuente de la noticia
- */
