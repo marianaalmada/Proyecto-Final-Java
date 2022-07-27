@@ -1,6 +1,10 @@
 package com.informatorio.infonews.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.informatorio.infonews.domain.Article;
 
 public class AuthorDTO {
     
@@ -9,13 +13,16 @@ public class AuthorDTO {
     private String lastName;
     private String fullName;
     private LocalDateTime createdAt;
+    private List<Article> articles = new ArrayList<>();
 
-    public AuthorDTO(Long id, String firstName, String lastName, String fullName, LocalDateTime createdAt) {
+    public AuthorDTO(Long id, String firstName, String lastName, String fullName, LocalDateTime createdAt,
+            List<Article> articles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.fullName = fullName;
         this.createdAt = createdAt;
+        this.articles = articles;
     }
 
     public Long getId() {
@@ -56,6 +63,14 @@ public class AuthorDTO {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 
     @Override

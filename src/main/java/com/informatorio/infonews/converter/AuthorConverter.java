@@ -14,17 +14,19 @@ public class AuthorConverter {
             author.getFirstName(),
             author.getLastName(),
             author.getFullName(),
-            author.getCreatedAt()
+            author.getCreatedAt(),
+            author.getArticles()
         );
     }
 
-    /*public Author toEntity(AuthorDTO authorDTO) {
+    public Author toEntity(AuthorDTO authorDTO) {
         return new Author(
             authorDTO.getId(),
             authorDTO.getFirstName(),
             authorDTO.getLastName(),
             authorDTO.getFullName(),
-            authorDTO.getCreatedAt()
+            authorDTO.getCreatedAt(), 
+            authorDTO.getArticles()
         );
-    }*/
+    }
 }
