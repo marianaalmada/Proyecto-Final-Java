@@ -25,12 +25,15 @@ public class Article {
     @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Source source;
+
     public Article() {
     }
 
     /*Borrar id del constructor */
     public Article(Long id, String title, String description, String url, String urlToImage, 
-            LocalDate publishedAt, String content, Author author) {
+            LocalDate publishedAt, String content, Author author, Source source) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -39,6 +42,7 @@ public class Article {
         this.publishedAt = publishedAt;
         this.content = content;
         this.author = author;
+        this.source = source;
     }
 
     public Long getId() {
@@ -104,6 +108,14 @@ public class Article {
     public void setAuthor(Author author) {
         this.author = author;
     } 
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
+    }
 
     @Override
     public int hashCode() {

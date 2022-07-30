@@ -3,6 +3,7 @@ package com.informatorio.infonews.dto;
 import java.time.LocalDate;
 
 import com.informatorio.infonews.domain.Author;
+import com.informatorio.infonews.domain.Source;
 
 public class ArticleDTO {
     
@@ -14,9 +15,10 @@ public class ArticleDTO {
     private LocalDate publishedAt;
     private String content;
     private Author author; 
+    private Source source;
     
     public ArticleDTO(Long id, String title, String description, String url, String urlToImage, 
-            LocalDate publishedAt, String content, Author author) {
+            LocalDate publishedAt, String content, Author author, Source source) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -25,6 +27,7 @@ public class ArticleDTO {
         this.publishedAt = publishedAt;
         this.content = content;
         this.author = author;
+        this.source = source;
     }
 
     public ArticleDTO() {
@@ -92,6 +95,14 @@ public class ArticleDTO {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Source getSource() {
+        return source;
+    }
+
+    public void setSource(Source source) {
+        this.source = source;
     }
 
     @Override
