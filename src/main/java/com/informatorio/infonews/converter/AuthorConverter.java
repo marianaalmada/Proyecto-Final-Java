@@ -10,23 +10,15 @@ public class AuthorConverter {
     
     public AuthorDTO toDto(Author author) {
         return new AuthorDTO(
-            author.getId(),
             author.getFirstName(),
-            author.getLastName(),
-            author.getFullName(),
-            author.getCreatedAt(),
-            author.getArticles()
+            author.getLastName()
         );
     }
 
     public Author toEntity(AuthorDTO authorDTO) {
         return new Author(
-            authorDTO.getId(),
             authorDTO.getFirstName(),
-            authorDTO.getLastName(),
-            authorDTO.getFullName(),
-            authorDTO.getCreatedAt(), 
-            authorDTO.getArticles()
+            authorDTO.getLastName()
         );
     }
 }
