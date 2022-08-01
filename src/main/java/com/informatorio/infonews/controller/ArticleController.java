@@ -7,27 +7,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.informatorio.infonews.converter.ArticleConverter;
-import com.informatorio.infonews.domain.Article;
 import com.informatorio.infonews.dto.ArticleDTO;
-import com.informatorio.infonews.repository.ArticleRepository;
+import com.informatorio.infonews.service.ArticleService;
 
 @RestController
 public class ArticleController {
 
-    private final ArticleRepository articleRepository;
-    private final ArticleConverter articleConverter;
+    private final ArticleService articleService;
 
     @Autowired
-    public ArticleController(ArticleRepository articleRepository, ArticleConverter articleConverter) {
-        this.articleRepository = articleRepository;
-        this.articleConverter = articleConverter;
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @PostMapping("/article")
     public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO) {
-        Article article = articleConverter.toEntity(articleDTO);
-        articleRepository.save(article);
-        return new ResponseEntity<>(articleConverter.toDTO(article), HttpStatus.CREATED);
+        return new ResponseEntity<>(articleService.createArticle(articleDTO), HttpStatus.CREATED);
     }
 }
