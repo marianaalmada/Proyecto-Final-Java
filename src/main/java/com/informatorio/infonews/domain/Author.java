@@ -28,14 +28,12 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     List<Article> articles = new ArrayList<>();
 
-    public Author(Long id, String firstName, String lastName, String fullName, LocalDateTime createdAt, 
-            List<Article> articles) {
-        this.id = id;
+    public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.fullName = fullName;
-        this.createdAt = createdAt;
-        this.articles = articles;
+    }
+
+    public Author() {
     }
 
     public Long getId() {
