@@ -1,6 +1,8 @@
 package com.informatorio.infonews.service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +31,13 @@ public class ArticleService {
         }
         articleRepository.save(article);
         return articleConverter.toDTO(article);
+    }
+
+    public List<ArticleDTO> getArticles() {
+        List<Article> articles = articleRepository.findByPublishedTrue();
+        List<ArticleDTO> articlesDT0 = articles.stream()
+                .map(article -> articleConverter.toDTO(article))
+                .collect(Collectors.toList());
+        return articlesDT0;
     }
 }
