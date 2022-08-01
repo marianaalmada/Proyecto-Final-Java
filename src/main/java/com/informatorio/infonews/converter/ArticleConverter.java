@@ -17,6 +17,7 @@ public class ArticleConverter {
             article.getUrlToImage(),
             article.getPublishedAt(),
             article.getContent(),
+            article.isPublished(),
             article.getAuthor(),
             article.getSource()
         );
@@ -31,6 +32,7 @@ public class ArticleConverter {
             articleDTO.getUrlToImage(),
             articleDTO.getPublishedAt(),
             articleDTO.getContent(),
+            articleDTO.isPublished(),
             articleDTO.getAuthor(),
             articleDTO.getSource()
         );

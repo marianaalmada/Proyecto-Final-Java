@@ -21,6 +21,7 @@ public class Article {
     private String urlToImage;
     private LocalDate publishedAt;
     private String content;
+    private boolean published; 
     
     @ManyToOne(fetch = FetchType.LAZY)
     private Author author;
@@ -33,7 +34,7 @@ public class Article {
 
     /*Borrar id del constructor */
     public Article(Long id, String title, String description, String url, String urlToImage, 
-            LocalDate publishedAt, String content, Author author, Source source) {
+            LocalDate publishedAt, String content, boolean published, Author author, Source source) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -41,6 +42,7 @@ public class Article {
         this.urlToImage = urlToImage;
         this.publishedAt = publishedAt;
         this.content = content;
+        this.published = published;
         this.author = author;
         this.source = source;
     }
@@ -115,6 +117,14 @@ public class Article {
 
     public void setSource(Source source) {
         this.source = source;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 
     @Override
