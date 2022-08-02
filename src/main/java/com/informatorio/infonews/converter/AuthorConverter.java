@@ -10,8 +10,10 @@ public class AuthorConverter {
     
     public AuthorDTO toDto(Author author) {
         return new AuthorDTO(
+            author.getId(),
             author.getFirstName(),
-            author.getLastName()
+            author.getLastName(),
+            author.getCreatedAt()
         );
     }
 
