@@ -27,6 +27,7 @@ public class AuthorController {
     @PostMapping("/author")
     public ResponseEntity<?> createAuthor(@RequestBody AuthorDTO authorDTO) {
         Author author = authorConverter.toEntity(authorDTO);
+        author.setFullName(author.getFirstName() + " " + author.getLastName());
         authorRepository.save(author);
         return new ResponseEntity<>(authorConverter.toDto(author), HttpStatus.CREATED);
     }
