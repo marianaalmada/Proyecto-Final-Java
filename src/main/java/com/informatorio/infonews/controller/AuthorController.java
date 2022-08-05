@@ -1,11 +1,6 @@
 package com.informatorio.infonews.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,18 +16,22 @@ import com.informatorio.infonews.converter.AuthorConverter;
 import com.informatorio.infonews.domain.Author;
 import com.informatorio.infonews.dto.AuthorDTO;
 import com.informatorio.infonews.repository.AuthorRepository;
-import com.informatorio.infonews.util.CustomPage;
+import com.informatorio.infonews.service.AuthorService;
 
 @RestController
 public class AuthorController {
 
     private final AuthorRepository authorRepository;
     private final AuthorConverter authorConverter;
+    public AuthorService authorService;
 
     @Autowired
-    public AuthorController(AuthorRepository authorRepository, AuthorConverter authorConverter) {
+    public AuthorController(AuthorRepository authorRepository, 
+            AuthorConverter authorConverter,
+            AuthorService authorService) {
         this.authorRepository = authorRepository;
         this.authorConverter = authorConverter;
+        this.authorService = authorService;
     }
 
     @PostMapping("/author")
@@ -60,21 +59,17 @@ public class AuthorController {
     }
 
     @GetMapping("/author")
-    public ResponseEntity<?> getAuthor(@RequestParam int page, @RequestParam int size) {
-        Pageable pages = PageRequest.of(page, size);
-        Page<Author> authors = authorRepository.findAll(pages);
-        CustomPage customPage = new CustomPage(authorConverter.toDto(authors.getContent()), 
-                authors.getTotalElements(), 
-                authors.getTotalPages(), 
-                authors.getNumber(), 
-                authors.getSize(), 
-                authors.getNumberOfElements());
-        return new ResponseEntity<>(customPage, HttpStatus.OK);
-    }
+    public ResponseEntity<?> getAuthor(@RequestParam(defaultValue = "0") int page, 
+                    @RequestParam (defaultValue = "5") int size,
+                    @RequestParam(required = false) String name,
+                    @RequestParam(required = false) String date) {
+        if (name != null) {
+            return new ResponseEntity<>(authorConverter.toDto(authorService.getAuthorByFullName(name)), HttpStatus.OK);
+        }
+        if (date != null) {  
+            return new ResponseEntity<>(authorConverter.toDto(authorService.getAuthorByCreationDate(date)), HttpStatus.OK);
+        }
 
-    @GetMapping("/author/q")
-    public ResponseEntity<?> getAuthorByName(@RequestParam String name) {
-        List<Author> authors = authorRepository.findByFullNameContains(name);
-        return new ResponseEntity<>(authorConverter.toDto(authors), HttpStatus.OK);
+        return new ResponseEntity<>(authorService.getPageableAuthors(page, size), HttpStatus.OK);
     }
 }
