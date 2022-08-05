@@ -1,5 +1,8 @@
 package com.informatorio.infonews.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.informatorio.infonews.domain.Author;
@@ -22,5 +25,12 @@ public class AuthorConverter {
             authorDTO.getFirstName(),
             authorDTO.getLastName()
         );
+    }
+
+    public List<AuthorDTO> toDto(List<Author> authors) {
+        List<AuthorDTO> authorDTOs = authors.stream()
+               .map(author -> this.toDto(author))
+               .collect(Collectors.toList());
+        return authorDTOs;
     }
 }
