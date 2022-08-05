@@ -1,5 +1,7 @@
 package com.informatorio.infonews.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -68,5 +70,11 @@ public class AuthorController {
                 authors.getSize(), 
                 authors.getNumberOfElements());
         return new ResponseEntity<>(customPage, HttpStatus.OK);
+    }
+
+    @GetMapping("/author/q")
+    public ResponseEntity<?> getAuthorByName(@RequestParam String name) {
+        List<Author> authors = authorRepository.findByFullNameContains(name);
+        return new ResponseEntity<>(authorConverter.toDto(authors), HttpStatus.OK);
     }
 }
