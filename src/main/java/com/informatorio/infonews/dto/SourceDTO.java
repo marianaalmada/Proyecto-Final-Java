@@ -1,25 +1,19 @@
 package com.informatorio.infonews.dto;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.informatorio.infonews.domain.Article;
+import java.time.LocalDate;
 
 public class SourceDTO {
     
     private Long id;
     private String name;
     private String code;
-    private LocalDateTime createdAt;
-    List<Article> articles = new ArrayList<>();
+    private LocalDate createdAt;
 
-    public SourceDTO(Long id, String name, String code, LocalDateTime createdAt, List<Article> articles ) {
+    public SourceDTO(Long id, String name, String code, LocalDate createdAt) {
         this.id = id;
         this.name = name;
         this.code = code;
         this.createdAt = createdAt;
-        this.articles = articles;
     }
 
     public SourceDTO() {
@@ -49,21 +43,13 @@ public class SourceDTO {
         this.code = code;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public LocalDate getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
+    public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
-
-    public List<Article> getArticles() {
-        return articles;
-    }
-
-    public void setArticles(List<Article> articles) {
-        this.articles = articles;
-    } 
 
     @Override
     public String toString() {

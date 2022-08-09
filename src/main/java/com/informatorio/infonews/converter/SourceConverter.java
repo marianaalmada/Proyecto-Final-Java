@@ -13,8 +13,7 @@ public class SourceConverter {
             sourceDTO.getId(),
             sourceDTO.getName(),
             sourceDTO.getCode(),
-            sourceDTO.getCreatedAt(),
-            sourceDTO.getArticles()
+            sourceDTO.getCreatedAt()
         );
     }
 
@@ -23,8 +22,7 @@ public class SourceConverter {
             source.getId(),
             source.getName(),
             source.getCode(),
-            source.getCreatedAt(),
-            source.getArticles()
+            source.getCreatedAt()
         );
     }
 }
