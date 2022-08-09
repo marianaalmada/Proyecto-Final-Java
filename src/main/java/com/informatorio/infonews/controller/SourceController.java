@@ -1,10 +1,17 @@
 package com.informatorio.infonews.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.informatorio.infonews.converter.SourceConverter;
@@ -33,5 +40,29 @@ public class SourceController {
         return new ResponseEntity<>(sourceConverter.toDto(source), HttpStatus.CREATED);
     }
 
-    /*@PutMapping("/source/")*/
+    @PutMapping("/source/{sourceId}")
+    public ResponseEntity<?> modifySource(@PathVariable Long sourceId, @RequestBody SourceDTO sourceDTO) {
+        Source source = sourceRepository.findById(sourceId).get();
+        source.setName(sourceDTO.getName());
+        String code = sourceDTO.getName().toLowerCase().replace(" ", "-");
+        source.setCode(code);
+        sourceRepository.save(source);
+        return new ResponseEntity<>(sourceConverter.toDto(source), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/source")
+    public ResponseEntity<?> getSources(@RequestParam(required = false) String name) {
+        List<Source> sources = sourceRepository.findAll();
+        if (name != null) {
+            List<Source> sourcesByName = sourceRepository.findByNameContains(name);
+            return new ResponseEntity<>(sourceConverter.toDto(sourcesByName), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(sourceConverter.toDto(sources), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/source/{sourceId}")
+    public ResponseEntity<?> deleteSource(@PathVariable Long sourceId) {
+        sourceRepository.deleteById(sourceId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
