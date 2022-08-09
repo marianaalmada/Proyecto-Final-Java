@@ -27,7 +27,11 @@ public class SourceController {
     @PostMapping("/source")
     public ResponseEntity<?> createSource(@RequestBody SourceDTO sourceDTO) {
         Source source = sourceConverter.toEntity(sourceDTO);
+        String code = source.getName().toLowerCase().replace(" ", "-");
+        source.setCode(code);
         sourceRepository.save(source);
         return new ResponseEntity<>(sourceConverter.toDto(source), HttpStatus.CREATED);
     }
+
+    /*@PutMapping("/source/")*/
 }
