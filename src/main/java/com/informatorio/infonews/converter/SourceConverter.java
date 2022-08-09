@@ -1,5 +1,8 @@
 package com.informatorio.infonews.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import com.informatorio.infonews.domain.Source;
@@ -24,5 +27,12 @@ public class SourceConverter {
             source.getCode(),
             source.getCreatedAt()
         );
+    }
+
+    public List<SourceDTO> toDto(List<Source> sources) {
+        List<SourceDTO> sourceDTOs = sources.stream()
+                .map(source -> this.toDto(source))
+                .collect(Collectors.toList());
+        return sourceDTOs;
     }
 }
