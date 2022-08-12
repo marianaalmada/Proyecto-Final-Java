@@ -28,7 +28,7 @@ public class Author {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     List<Article> articles = new ArrayList<>();
 
-    public Author(String firstName, String lastName) {
+    public Author(Long id, String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }

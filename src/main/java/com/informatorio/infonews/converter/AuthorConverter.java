@@ -22,6 +22,7 @@ public class AuthorConverter {
 
     public Author toEntity(AuthorDTO authorDTO) {
         return new Author(
+            authorDTO.getId(),
             authorDTO.getFirstName(),
             authorDTO.getLastName()
         );

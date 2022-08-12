@@ -3,14 +3,31 @@ package com.informatorio.infonews.converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.informatorio.infonews.domain.Article;
 import com.informatorio.infonews.dto.ArticleDTO;
+import com.informatorio.infonews.repository.AuthorRepository;
+import com.informatorio.infonews.repository.SourceRepository;
 
 @Component
 public class ArticleConverter {
+
+    private AuthorConverter authorConverter;
+    private SourceConverter sourceConverter;
+    private final AuthorRepository authorRepository;
+    private final SourceRepository sourceRepository;
     
+    @Autowired
+    public ArticleConverter(AuthorConverter authorConverter, SourceConverter sourceConverter, 
+            AuthorRepository authorRepository, SourceRepository sourceRepository) {
+        this.authorConverter = authorConverter;
+        this.sourceConverter = sourceConverter;
+        this.authorRepository = authorRepository;
+        this.sourceRepository = sourceRepository;
+    }
+
     public ArticleDTO toDTO(Article article) {
         return new ArticleDTO(
             article.getId(),
@@ -21,8 +38,8 @@ public class ArticleConverter {
             article.getPublishedAt(),
             article.getContent(),
             article.isPublished(),
-            article.getAuthor(),
-            article.getSource()
+            authorConverter.toDto(article.getAuthor()),
+            sourceConverter.toDto(article.getSource())
         );
     }
 
@@ -43,8 +60,8 @@ public class ArticleConverter {
             articleDTO.getPublishedAt(),
             articleDTO.getContent(),
             articleDTO.isPublished(),
-            articleDTO.getAuthor(),
-            articleDTO.getSource()
+            authorRepository.findById(articleDTO.getAuthor().getId()).get(),
+            sourceRepository.findById(articleDTO.getAuthor().getId()).get()
         );
     }
 }

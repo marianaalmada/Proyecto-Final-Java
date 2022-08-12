@@ -16,6 +16,9 @@ public class AuthorDTO {
         this.createdAt = createdAt;
     }
 
+    public AuthorDTO() {
+    }
+
     public Long getId() {
         return id;
     }
