@@ -13,17 +13,25 @@ import com.informatorio.infonews.domain.Article;
 import com.informatorio.infonews.dto.ArticleDTO;
 import com.informatorio.infonews.dto.CustomPage;
 import com.informatorio.infonews.repository.ArticleRepository;
+import com.informatorio.infonews.repository.AuthorRepository;
+import com.informatorio.infonews.repository.SourceRepository;
 
 @Service
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final ArticleConverter articleConverter;
+    private final AuthorRepository authorRepository;
+    private final SourceRepository sourceRepository;
 
     @Autowired
-    public ArticleService(ArticleRepository articleRepository, ArticleConverter articleConverter) {
+    public ArticleService(ArticleRepository articleRepository, 
+            ArticleConverter articleConverter, AuthorRepository authorRepository, 
+            SourceRepository sourceRepository) {
         this.articleRepository = articleRepository;
         this.articleConverter = articleConverter;
+        this.authorRepository = authorRepository;
+        this.sourceRepository = sourceRepository;
     }
 
     public Article createArticle(ArticleDTO articleDTO) {
@@ -49,5 +57,18 @@ public class ArticleService {
                 articles.getSize(), 
                 articles.getNumberOfElements());
         return customPage;
+    }
+
+    public Article modifyArticle(Long id, ArticleDTO articleDTO) {
+        Article article = articleRepository.findById(id).get();
+        article.setTitle(articleDTO.getTitle());
+        article.setDescription(articleDTO.getDescription());
+        article.setUrl(articleDTO.getUrl());
+        article.setUrlToImage(articleDTO.getUrlToImage());
+        article.setContent(articleDTO.getContent());
+        article.setPublished(articleDTO.isPublished());
+        article.setAuthor(authorRepository.findById(articleDTO.getAuthor().getId()).get());
+        article.setSource(sourceRepository.findById(articleDTO.getSource().getId()).get());
+        return articleRepository.save(article);
     }
 }

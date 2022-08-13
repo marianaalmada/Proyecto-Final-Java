@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +44,11 @@ public class ArticleController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         return new ResponseEntity<>(articleService.getArticles(keyword, page, size), HttpStatus.OK);
+    }
+
+    @PutMapping("/article/{id}")
+    public ResponseEntity<?> modifyArticle(@PathVariable Long id, @RequestBody ArticleDTO articleDTO) {
+        Article article = articleService.modifyArticle(id, articleDTO);
+        return new ResponseEntity<>(articleConverter.toDTO(article), HttpStatus.CREATED);
     }
 }
