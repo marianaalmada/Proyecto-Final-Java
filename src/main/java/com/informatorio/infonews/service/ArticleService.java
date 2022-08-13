@@ -71,4 +71,8 @@ public class ArticleService {
         article.setSource(sourceRepository.findById(articleDTO.getSource().getId()).get());
         return articleRepository.save(article);
     }
+
+    public void deleteArticle(Long id) {
+        articleRepository.deleteById(id);
+    }
 }
