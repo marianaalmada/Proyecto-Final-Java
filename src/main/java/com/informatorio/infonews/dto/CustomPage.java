@@ -1,4 +1,4 @@
-package com.informatorio.infonews.util;
+package com.informatorio.infonews.dto;
 
 import java.util.List;
 

@@ -1,13 +1,15 @@
 package com.informatorio.infonews.controller;
 
-import java.util.List;
+import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.informatorio.infonews.converter.ArticleConverter;
@@ -16,10 +18,11 @@ import com.informatorio.infonews.dto.ArticleDTO;
 import com.informatorio.infonews.service.ArticleService;
 
 @RestController
+@Validated
 public class ArticleController {
 
-    private final ArticleService articleService;
-    private final ArticleConverter articleConverter;
+    private ArticleService articleService;
+    private ArticleConverter articleConverter;
 
     @Autowired
     public ArticleController(ArticleService articleService, ArticleConverter articleConverter) {
@@ -34,8 +37,10 @@ public class ArticleController {
     }
 
     @GetMapping("/article")
-    public ResponseEntity<?> getArticles() {
-        List<Article> articles = articleService.getArticles();
-        return new ResponseEntity<>(articleConverter.toDTO(articles), HttpStatus.OK);
+    public ResponseEntity<?> getArticles(
+            @RequestParam @Size(min = 3) String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return new ResponseEntity<>(articleService.getArticles(keyword, page, size), HttpStatus.OK);
     }
 }

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import com.informatorio.infonews.converter.AuthorConverter;
 import com.informatorio.infonews.domain.Author;
+import com.informatorio.infonews.dto.CustomPage;
 import com.informatorio.infonews.repository.AuthorRepository;
-import com.informatorio.infonews.util.CustomPage;
 
 @Service
 public class AuthorService {

@@ -1,14 +1,17 @@
 package com.informatorio.infonews.service;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.informatorio.infonews.converter.ArticleConverter;
 import com.informatorio.infonews.domain.Article;
 import com.informatorio.infonews.dto.ArticleDTO;
+import com.informatorio.infonews.dto.CustomPage;
 import com.informatorio.infonews.repository.ArticleRepository;
 
 @Service
@@ -31,8 +34,20 @@ public class ArticleService {
         return articleRepository.save(article);
     }
 
-    public List<Article> getArticles() {
-        List<Article> articles = articleRepository.findByPublishedTrue();
-        return articles;
+    public CustomPage getArticles(
+            String keyword,
+            int page, 
+            int size) {
+        Pageable pages = PageRequest.of(page, size);
+        Page<Article> articles = articleRepository 
+                .findByTitleOrDescription(keyword, pages);
+        CustomPage customPage = new CustomPage(
+                articleConverter.toDTO(articles.getContent()), 
+                articles.getTotalElements(), 
+                articles.getTotalPages(), 
+                articles.getNumber(), 
+                articles.getSize(), 
+                articles.getNumberOfElements());
+        return customPage;
     }
 }
