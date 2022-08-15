@@ -43,9 +43,14 @@ public class AuthorController {
     }
 
     @DeleteMapping("/author/{authorId}")
-    public ResponseEntity<?> deleteAuthor(@PathVariable Long authorId) {
-        authorRepository.deleteById(authorId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteAuthor(@PathVariable Long authorId) throws Exception {
+        Author author = authorRepository.findById(authorId).get();
+        if (author.getArticles().isEmpty()) {
+            authorRepository.deleteById(authorId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            throw new Exception("Author can't be deleted because it has Articles");
+        } 
     }
 
     @PutMapping("/author/{authorId}")

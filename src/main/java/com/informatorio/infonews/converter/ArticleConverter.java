@@ -61,7 +61,7 @@ public class ArticleConverter {
             articleDTO.getContent(),
             articleDTO.isPublished(),
             authorRepository.findById(articleDTO.getAuthor().getId()).get(),
-            sourceRepository.findById(articleDTO.getAuthor().getId()).get()
+            sourceRepository.findById(articleDTO.getSource().getId()).get()
         );
     }
 }

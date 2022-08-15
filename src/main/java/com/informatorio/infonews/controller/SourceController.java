@@ -61,8 +61,13 @@ public class SourceController {
     }
 
     @DeleteMapping("/source/{sourceId}")
-    public ResponseEntity<?> deleteSource(@PathVariable Long sourceId) {
-        sourceRepository.deleteById(sourceId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<?> deleteSource(@PathVariable Long sourceId) throws Exception {
+        Source source = sourceRepository.findById(sourceId).get();
+        if (source.getArticles().isEmpty()) {
+            sourceRepository.deleteById(sourceId);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            throw new Exception("Source can't be deleted because it has Articles");
+        }  
     }
 }
