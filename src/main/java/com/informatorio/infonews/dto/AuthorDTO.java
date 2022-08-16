@@ -2,10 +2,18 @@ package com.informatorio.infonews.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class AuthorDTO {
     
     private Long id;
+
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String firstName;
+    @NotBlank
+    @Size(min = 3, max = 50)
     private String lastName;
     private LocalDate createdAt;
 

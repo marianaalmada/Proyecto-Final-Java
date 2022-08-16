@@ -1,5 +1,7 @@
 package com.informatorio.infonews.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.informatorio.infonews.config.IllegalOperationException;
 import com.informatorio.infonews.converter.AuthorConverter;
 import com.informatorio.infonews.domain.Author;
 import com.informatorio.infonews.dto.AuthorDTO;
@@ -35,7 +38,7 @@ public class AuthorController {
     }
 
     @PostMapping("/author")
-    public ResponseEntity<?> createAuthor(@RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<?> createAuthor(@RequestBody @Valid AuthorDTO authorDTO) {
         Author author = authorConverter.toEntity(authorDTO);
         author.setFullName(author.getFirstName() + " " + author.getLastName());
         authorRepository.save(author);
@@ -43,18 +46,19 @@ public class AuthorController {
     }
 
     @DeleteMapping("/author/{authorId}")
-    public ResponseEntity<?> deleteAuthor(@PathVariable Long authorId) throws Exception {
+    public ResponseEntity<?> deleteAuthor(@PathVariable Long authorId) {
         Author author = authorRepository.findById(authorId).get();
         if (author.getArticles().isEmpty()) {
             authorRepository.deleteById(authorId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            throw new Exception("Author can't be deleted because it has Articles");
+            throw new IllegalOperationException(
+                "The entity can't be deleted because it's associated with an Article");
         } 
     }
 
     @PutMapping("/author/{authorId}")
-    public ResponseEntity<?> modifyAuthor(@PathVariable Long authorId, @RequestBody AuthorDTO authorDTO) {
+    public ResponseEntity<?> modifyAuthor(@PathVariable Long authorId, @RequestBody @Valid AuthorDTO authorDTO) {
         Author author = authorRepository.findById(authorId).get();
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());

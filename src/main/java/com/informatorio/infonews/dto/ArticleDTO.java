@@ -2,14 +2,21 @@ package com.informatorio.infonews.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class ArticleDTO {
     
     private Long id;
+    @NotBlank
+    @Size(min = 3, max = 100) 
     private String title;
     private String description;
     private String url;
     private String urlToImage;
     private LocalDate publishedAt;
+    @NotBlank
+    @Size(min = 5)
     private String content;
     public boolean published;
     private AuthorDTO author; 

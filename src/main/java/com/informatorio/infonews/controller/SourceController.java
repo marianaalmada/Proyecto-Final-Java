@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.informatorio.infonews.config.IllegalOperationException;
 import com.informatorio.infonews.converter.SourceConverter;
 import com.informatorio.infonews.domain.Source;
 import com.informatorio.infonews.dto.SourceDTO;
@@ -67,7 +68,8 @@ public class SourceController {
             sourceRepository.deleteById(sourceId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            throw new Exception("Source can't be deleted because it has Articles");
+            throw new IllegalOperationException(
+                "The entity can't be deleted because it's associated with an Article");
         }  
     }
 }

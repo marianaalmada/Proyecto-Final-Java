@@ -2,9 +2,14 @@ package com.informatorio.infonews.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class SourceDTO {
     
     private Long id;
+    @NotBlank
+    @Size(min = 3, max = 100) 
     private String name;
     private String code;
     private LocalDate createdAt;
