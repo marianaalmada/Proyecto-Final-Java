@@ -2,6 +2,8 @@ package com.informatorio.infonews.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +35,7 @@ public class SourceController {
     }
 
     @PostMapping("/source")
-    public ResponseEntity<?> createSource(@RequestBody SourceDTO sourceDTO) {
+    public ResponseEntity<?> createSource(@RequestBody @Valid SourceDTO sourceDTO) {
         Source source = sourceConverter.toEntity(sourceDTO);
         String code = source.getName().toLowerCase().replace(" ", "-");
         source.setCode(code);
@@ -42,7 +44,7 @@ public class SourceController {
     }
 
     @PutMapping("/source/{sourceId}")
-    public ResponseEntity<?> modifySource(@PathVariable Long sourceId, @RequestBody SourceDTO sourceDTO) {
+    public ResponseEntity<?> modifySource(@PathVariable Long sourceId, @RequestBody @Valid SourceDTO sourceDTO) {
         Source source = sourceRepository.findById(sourceId).get();
         source.setName(sourceDTO.getName());
         String code = sourceDTO.getName().toLowerCase().replace(" ", "-");

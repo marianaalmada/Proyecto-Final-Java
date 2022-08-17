@@ -30,6 +30,7 @@ public class Author {
     List<Article> articles = new ArrayList<>();
 
     public Author(Long id, String firstName, String lastName) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
     }

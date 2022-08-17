@@ -1,5 +1,6 @@
 package com.informatorio.infonews.controller;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class ArticleController {
     }
 
     @PostMapping("/article")
-    public ResponseEntity<?> createArticle(@RequestBody ArticleDTO articleDTO) {
+    public ResponseEntity<?> createArticle(@RequestBody @Valid ArticleDTO articleDTO) {
         Article article = articleService.createArticle(articleDTO);
         return new ResponseEntity<>(articleConverter.toDTO(article), HttpStatus.CREATED);
     }
@@ -48,7 +49,7 @@ public class ArticleController {
     }
 
     @PutMapping("/article/{id}")
-    public ResponseEntity<?> modifyArticle(@PathVariable Long id, @RequestBody ArticleDTO articleDTO) {
+    public ResponseEntity<?> modifyArticle(@PathVariable Long id, @RequestBody @Valid ArticleDTO articleDTO) {
         Article article = articleService.modifyArticle(id, articleDTO);
         return new ResponseEntity<>(articleConverter.toDTO(article), HttpStatus.CREATED);
     }
